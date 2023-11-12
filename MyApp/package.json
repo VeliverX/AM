@@ -29,5 +29,8 @@
       "cordova-plugin-browser": {},
       "cordova-support-android-plugin": {}
     }
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
