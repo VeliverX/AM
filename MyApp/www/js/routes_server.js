@@ -11,7 +11,7 @@ app.use((req, res, next) => {
 const routes = [
     {
         id: 1,
-        name: 'Trasa Wadowice - Szpital - Dworzec Kolejowy',
+        name: 'Trasa Kety, Rybnik, Raciórz, Bystrzyca Kłodzka',
         waypoints: [
             
           { id: 1, name: 'Kety, Rynek', lat: 49.88282586208495, lng: 19.220571140904532,description: 'miasto w województwie małopolskim, w powiecie oświęcimskim, siedziba gminy miejsko-wiejskiej Kęty. Kęty to miasto o charakterze handlowo-przemysłowym, położone na Podgórzu Wilamowickim, w dolinie rzeki Soły.' },
@@ -22,11 +22,12 @@ const routes = [
       },
       {
         id: 2,
-        name: 'Trasa Kraków - Rynek Główny - Wawel',
+        name: 'Trasa Kęty, Chrobacza Łąka',
         waypoints: [
-          { id: 5, name: 'Rynek Główny, Kraków',lat: 50.0614, lng: 19.9373,description: 'Opis miejsca' },
-          { id: 6, name: 'Sukiennice, Kraków', lat: 50.0618, lng: 19.9371,description: 'Opis miejsca' },
-          { id: 7, name: 'Wzgórze Wawelskie, Kraków', lat: 50.0544, lng: 19.9355,description: 'Opis miejsca' },
+          { id: 5, name: 'Dworzec PKP, Kęty Podlesie',lat: 49.87816959538084,  lng: 19.196828813560234, description: 'Opis miejsca' },
+          { id: 6, name: 'Rondo, Kozy', lat: 49.84464145422655, lng: 19.142363840338472,description: 'Opis miejsca' },
+          { id: 7, name: 'Kamieniołom, Kozy', lat: 49.82931467650209, lng: 19.16466673510428,description: 'Opis miejsca' },
+          { id: 8, name: 'Chrobacza Łąka', lat: 49.822022602140734,  lng: 19.16606830189463,description: 'Opis miejsca' },
         ],
       },
       
@@ -37,7 +38,7 @@ app.get('/routes', (req, res) => {
   res.json(routes);
 });
 
-// Obsługa zapytania GET dla pojedynczej trasy
+
 app.get('/routes/:id', (req, res) => {
   const routeId = parseInt(req.params.id);
   const route = routes.find(r => r.id === routeId);
@@ -49,7 +50,11 @@ app.get('/routes/:id', (req, res) => {
   }
 });
 
-// Uruchomienie serwera
 app.listen(port, () => {
   console.log(`Server port: ${port}`);
 });
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Wystąpił błąd serwera' });
+  });
