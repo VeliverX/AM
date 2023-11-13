@@ -8,15 +8,19 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
         <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
         <script src="platforms/browser/www/cordova.js"></script>
-        <title>Hello World</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+        <title>AM Nikodem Nikiel</title>
     </head>
     <body>
         <div>
-            <label for="routeSelect">Wybierz trasę:</label>
-            <select id="routeSelect"></select>
+            <label for="ListaTras">Wybierz trasę:</label>
+            <select id="ListaTras"></select>
             <button id="GoogleMapsButton">Otwórz trase</button>
+            <button id="centerMapButton">Wyśrodkuj</button>
           </div>
-        <div id="map" class="map" style="height:1200px; width:2000px;"></div>
+        <div id="map" class="map" style="height:100%; width:100%;"></div>
+        
         <script src="js/index.js"></script>
     </body>
 </html>
