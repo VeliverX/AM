@@ -57,34 +57,22 @@ function onDeviceReady() {
         .then(response => response.json())
         .then(data => {
           Trasy = data;
-          console.log('Routes from server:', Trasy);
-
-          // Zapisz trasy w lokalnym magazynie danych
-          localStorage.setItem('Trasa', JSON.stringify(Trasy));
-
+          localStorage.setItem('Trasy', JSON.stringify(Trasy));
           initializeRoutes(Trasy, Geo_Localization, select, control);
         })
-        .catch(error => {
-          console.error('Błąd podczas pobierania tras:', error);
-        });
     }
   });
 
-  function initializeRoutes(Trasa, Geo_Localization, select, control) {
-    // Dodaj bieżącą lokalizację jako pierwszy punkt do każdej trasy
-    Trasa.forEach(route => {
-      route.waypoints.unshift(Geo_Localization);
-
-      // Aktualizuj listę tras w selekcie
+  function initializeRoutes(Trasy, Geo_Localization, select, control) {
+    Trasy.forEach(Trasa => {
+      Trasa.waypoints.unshift(Geo_Localization);
       const option = document.createElement('option');
-      option.value = route.id;
-      option.text = route.name;
+      option.value = Trasa.id;
+      option.text = Trasa.name;
       select.add(option);
     });
-
-    // Inicjalizuj trasę na podstawie pierwszej trasy
     const selectedRouteId = select.value;
-    updateRoute(selectedRouteId, Trasa, control);
+    updateRoute(selectedRouteId, Trasy, control);
   }
 
   select.addEventListener('change', () => {
@@ -94,7 +82,7 @@ function onDeviceReady() {
 
   openInMapsButton.addEventListener('click', () => {
     const selectedRouteId = select.value;
-    const selectedRoute = Trasy.find(route => route.id == selectedRouteId);
+    const selectedRoute = Trasy.find(Trasa => Trasa.id == selectedRouteId);
 
     if (selectedRoute) {
       const waypoints = selectedRoute.waypoints.map(waypoint => `${waypoint.geo_latitude},${waypoint.geo_longitude}`);
@@ -103,11 +91,11 @@ function onDeviceReady() {
     }
   });
 
-  function updateRoute(selectedRouteId, Trasa, control) {
-    const route = Trasa.find(route => route.id == selectedRouteId);
+  function updateRoute(selectedRouteId, Trasy, control) {
+    const Trasa = Trasy.find(Trasa => Trasa.id == selectedRouteId);
 
-    if (route) {
-      const waypoints = route.waypoints.map(waypoint => ({
+    if (Trasa) {
+      const waypoints = Trasa.waypoints.map(waypoint => ({
         latLng: L.latLng(waypoint.geo_latitude, waypoint.geo_longitude),
         name: waypoint.name,
         description: waypoint.description || ''
