@@ -27,7 +27,7 @@ function onDeviceReady() {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  const select = document.getElementById('ListaTras');
+  const ListaTras = document.getElementById('ListaTras');
   const openInMapsButton = document.getElementById('GoogleMapsButton');
 
 
@@ -50,7 +50,7 @@ function onDeviceReady() {
 
     if (LocalStorage_Trasy) {
       Trasy = LocalStorage_Trasy;
-      initializeRoutes(Trasy, Geo_Localization, select, control);
+      initializeRoutes(Trasy, Geo_Localization, ListaTras, control);
     } else {
       // Pobierz trasy z serwera
       fetch('http://localhost:8080/Trasy')
@@ -58,31 +58,31 @@ function onDeviceReady() {
         .then(data => {
           Trasy = data;
           localStorage.setItem('Trasy', JSON.stringify(Trasy));
-          initializeRoutes(Trasy, Geo_Localization, select, control);
+          initializeRoutes(Trasy, Geo_Localization, ListaTras, control);
         })
     }
   });
 
-  function initializeRoutes(Trasy, Geo_Localization, select, control) {
+  function initializeRoutes(Trasy, Geo_Localization, ListaTras, control) {
     Trasy.forEach(Trasa => {
       Trasa.waypoints.unshift(Geo_Localization);
       const option = document.createElement('option');
       option.value = Trasa.id;
       option.text = Trasa.name;
-      select.add(option);
+      ListaTras.add(option);
     });
-    const selectedRouteId = select.value;
-    updateRoute(selectedRouteId, Trasy, control);
+    const Id_Wybranej_Trasy = ListaTras.value;
+    updateRoute(Id_Wybranej_Trasy, Trasy, control);
   }
 
-  select.addEventListener('change', () => {
-    const selectedRouteId = select.value;
-    updateRoute(selectedRouteId, Trasy, control);
+  ListaTras.addEventListener('change', () => {
+    const Id_Wybranej_Trasy = ListaTras.value;
+    updateRoute(Id_Wybranej_Trasy, Trasy, control);
   });
 
   openInMapsButton.addEventListener('click', () => {
-    const selectedRouteId = select.value;
-    const selectedRoute = Trasy.find(Trasa => Trasa.id == selectedRouteId);
+    const Id_Wybranej_Trasy = ListaTras.value;
+    const selectedRoute = Trasy.find(Trasa => Trasa.id == Id_Wybranej_Trasy);
 
     if (selectedRoute) {
       const waypoints = selectedRoute.waypoints.map(waypoint => `${waypoint.geo_latitude},${waypoint.geo_longitude}`);
@@ -91,8 +91,8 @@ function onDeviceReady() {
     }
   });
 
-  function updateRoute(selectedRouteId, Trasy, control) {
-    const Trasa = Trasy.find(Trasa => Trasa.id == selectedRouteId);
+  function updateRoute(Id_Wybranej_Trasy, Trasy, control) {
+    const Trasa = Trasy.find(Trasa => Trasa.id == Id_Wybranej_Trasy);
 
     if (Trasa) {
       const waypoints = Trasa.waypoints.map(waypoint => ({
